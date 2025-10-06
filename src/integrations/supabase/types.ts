@@ -14,16 +14,349 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      chapters: {
+        Row: {
+          admin_id: string | null
+          country: string
+          created_at: string | null
+          id: string
+          location: string
+          member_count: number | null
+          name: string
+          updated_at: string | null
+        }
+        Insert: {
+          admin_id?: string | null
+          country: string
+          created_at?: string | null
+          id?: string
+          location: string
+          member_count?: number | null
+          name: string
+          updated_at?: string | null
+        }
+        Update: {
+          admin_id?: string | null
+          country?: string
+          created_at?: string | null
+          id?: string
+          location?: string
+          member_count?: number | null
+          name?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chapters_admin_id_fkey"
+            columns: ["admin_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      claims: {
+        Row: {
+          claim_amount: number
+          claim_number: string
+          created_at: string | null
+          description: string
+          id: string
+          incident_date: string
+          policy_id: string
+          profile_id: string
+          status: Database["public"]["Enums"]["claim_status"] | null
+          supporting_documents: Json | null
+          updated_at: string | null
+          verified_at: string | null
+          verified_by: string | null
+          verifier_notes: string | null
+        }
+        Insert: {
+          claim_amount: number
+          claim_number: string
+          created_at?: string | null
+          description: string
+          id?: string
+          incident_date: string
+          policy_id: string
+          profile_id: string
+          status?: Database["public"]["Enums"]["claim_status"] | null
+          supporting_documents?: Json | null
+          updated_at?: string | null
+          verified_at?: string | null
+          verified_by?: string | null
+          verifier_notes?: string | null
+        }
+        Update: {
+          claim_amount?: number
+          claim_number?: string
+          created_at?: string | null
+          description?: string
+          id?: string
+          incident_date?: string
+          policy_id?: string
+          profile_id?: string
+          status?: Database["public"]["Enums"]["claim_status"] | null
+          supporting_documents?: Json | null
+          updated_at?: string | null
+          verified_at?: string | null
+          verified_by?: string | null
+          verifier_notes?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "claims_policy_id_fkey"
+            columns: ["policy_id"]
+            isOneToOne: false
+            referencedRelation: "policies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "claims_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "claims_verified_by_fkey"
+            columns: ["verified_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payments: {
+        Row: {
+          amount: number
+          created_at: string | null
+          id: string
+          memo: string | null
+          metadata: Json | null
+          pi_payment_id: string | null
+          policy_id: string | null
+          profile_id: string
+          status: Database["public"]["Enums"]["payment_status"] | null
+          tx_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string | null
+          id?: string
+          memo?: string | null
+          metadata?: Json | null
+          pi_payment_id?: string | null
+          policy_id?: string | null
+          profile_id: string
+          status?: Database["public"]["Enums"]["payment_status"] | null
+          tx_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string | null
+          id?: string
+          memo?: string | null
+          metadata?: Json | null
+          pi_payment_id?: string | null
+          policy_id?: string | null
+          profile_id?: string
+          status?: Database["public"]["Enums"]["payment_status"] | null
+          tx_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_policy_id_fkey"
+            columns: ["policy_id"]
+            isOneToOne: false
+            referencedRelation: "policies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      policies: {
+        Row: {
+          beneficiary_name: string | null
+          beneficiary_relationship: string | null
+          chapter_id: string | null
+          coverage_amount: number
+          created_at: string | null
+          end_date: string | null
+          id: string
+          monthly_premium: number
+          policy_number: string
+          profile_id: string
+          start_date: string
+          status: Database["public"]["Enums"]["policy_status"] | null
+          updated_at: string | null
+        }
+        Insert: {
+          beneficiary_name?: string | null
+          beneficiary_relationship?: string | null
+          chapter_id?: string | null
+          coverage_amount: number
+          created_at?: string | null
+          end_date?: string | null
+          id?: string
+          monthly_premium: number
+          policy_number: string
+          profile_id: string
+          start_date?: string
+          status?: Database["public"]["Enums"]["policy_status"] | null
+          updated_at?: string | null
+        }
+        Update: {
+          beneficiary_name?: string | null
+          beneficiary_relationship?: string | null
+          chapter_id?: string | null
+          coverage_amount?: number
+          created_at?: string | null
+          end_date?: string | null
+          id?: string
+          monthly_premium?: number
+          policy_number?: string
+          profile_id?: string
+          start_date?: string
+          status?: Database["public"]["Enums"]["policy_status"] | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "policies_chapter_id_fkey"
+            columns: ["chapter_id"]
+            isOneToOne: false
+            referencedRelation: "chapters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "policies_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string | null
+          display_name: string | null
+          email: string | null
+          id: string
+          phone: string | null
+          pi_uid: string | null
+          pi_username: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          phone?: string | null
+          pi_uid?: string | null
+          pi_username?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          phone?: string | null
+          pi_uid?: string | null
+          pi_username?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      verifiers: {
+        Row: {
+          chapter_id: string
+          created_at: string | null
+          id: string
+          is_active: boolean | null
+          profile_id: string
+          updated_at: string | null
+          verified_claims_count: number | null
+        }
+        Insert: {
+          chapter_id: string
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          profile_id: string
+          updated_at?: string | null
+          verified_claims_count?: number | null
+        }
+        Update: {
+          chapter_id?: string
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          profile_id?: string
+          updated_at?: string | null
+          verified_claims_count?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "verifiers_chapter_id_fkey"
+            columns: ["chapter_id"]
+            isOneToOne: false
+            referencedRelation: "chapters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "verifiers_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      generate_claim_number: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
+      generate_policy_number: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
     }
     Enums: {
-      [_ in never]: never
+      claim_status:
+        | "pending"
+        | "under_review"
+        | "approved"
+        | "rejected"
+        | "paid"
+      payment_status:
+        | "pending"
+        | "approved"
+        | "completed"
+        | "cancelled"
+        | "failed"
+      policy_status: "active" | "expired" | "cancelled" | "suspended"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +483,16 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      claim_status: ["pending", "under_review", "approved", "rejected", "paid"],
+      payment_status: [
+        "pending",
+        "approved",
+        "completed",
+        "cancelled",
+        "failed",
+      ],
+      policy_status: ["active", "expired", "cancelled", "suspended"],
+    },
   },
 } as const
