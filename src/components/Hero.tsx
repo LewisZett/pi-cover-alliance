@@ -1,8 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { usePiNetwork } from "@/hooks/usePiNetwork";
 import heroBg from "@/assets/hero-bg.jpg";
 
 const Hero = () => {
+  const navigate = useNavigate();
+  const { isAuthenticated, signIn, loading } = usePiNetwork();
+  
   return (
     <section className="relative overflow-hidden">
       <div 
@@ -27,20 +32,49 @@ const Hero = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button 
-              size="lg" 
-              className="bg-white text-primary hover:bg-white/90 shadow-glow text-lg px-8 py-6 rounded-xl font-semibold group"
-            >
-              Get Started
-              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
-            <Button 
-              size="lg" 
-              variant="outline"
-              className="bg-white/10 backdrop-blur-sm text-white border-white/30 hover:bg-white/20 text-lg px-8 py-6 rounded-xl font-semibold"
-            >
-              Learn More
-            </Button>
+            {isAuthenticated ? (
+              <>
+                <Button 
+                  size="lg" 
+                  className="bg-white text-primary hover:bg-white/90 shadow-glow text-lg px-8 py-6 rounded-xl font-semibold group"
+                  onClick={() => navigate('/policy')}
+                >
+                  Get Your Policy
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+                <Button 
+                  size="lg" 
+                  variant="outline"
+                  className="bg-white/10 backdrop-blur-sm text-white border-white/30 hover:bg-white/20 text-lg px-8 py-6 rounded-xl font-semibold"
+                  onClick={() => navigate('/claim')}
+                >
+                  File a Claim
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button 
+                  size="lg" 
+                  className="bg-white text-primary hover:bg-white/90 shadow-glow text-lg px-8 py-6 rounded-xl font-semibold group"
+                  onClick={signIn}
+                  disabled={loading}
+                >
+                  {loading ? 'Connecting...' : 'Connect Pi Wallet'}
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+                <Button 
+                  size="lg" 
+                  variant="outline"
+                  className="bg-white/10 backdrop-blur-sm text-white border-white/30 hover:bg-white/20 text-lg px-8 py-6 rounded-xl font-semibold"
+                  onClick={() => {
+                    const featuresSection = document.querySelector('#features');
+                    featuresSection?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                >
+                  Learn More
+                </Button>
+              </>
+            )}
           </div>
         </div>
       </div>
