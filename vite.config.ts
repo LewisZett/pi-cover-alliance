@@ -1,12 +1,14 @@
 import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import { viteStaticCopy } from 'vite-plugin-static-copy'  // If you have this, keep; else ignore
+import react from '@vitejs/plugin-react'  // <-- This now works after Step 1
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/',  // <-- KEY: Root path for Vercel (remove any '/pi-cover-alliance/')
+  base: '/',  // Root path for Vercel (no '/pi-cover-alliance/')
   build: {
-    outDir: 'dist',  // Standard
+    outDir: 'dist',
+  },
+  server: {
+    port: 3000,
   },
 })
